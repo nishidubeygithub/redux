@@ -21,9 +21,8 @@ import store from './store/store';
 function App() {
     return (
         <Provider store={store}>
-            
-                
-                <CounterComponent />
+             <CounterComponent /> 
+            {/* <CounterClassComponent/> */}
             
         </Provider>
     );
@@ -38,3 +37,4 @@ const styles = StyleSheet.create({
 });
 
 export default App;
+

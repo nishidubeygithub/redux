@@ -1,108 +1,162 @@
-// import React from 'react';
-// import {
-//     StyleSheet,
-//     Text,
-//     TouchableOpacity,
-//     View,
-// } from 'react-native';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { decrementAction, incrementAction } from './action/action';
-
-// export default function CounterComponent() {
-//     const dispatch = useDispatch();
-//     const count = useSelector(state => state.counter.count);
-
-//     return (
-//         <View style={styles.container}>
-//             <View style={styles.innerContainer}>
-
-//                 <TouchableOpacity onPress={() => dispatch(incrementAction(count + 1))} style={styles.buttonStyle}>
-//                     <Text style={styles.buttonTextStyle}>+</Text>
-//                 </TouchableOpacity>
-                
-//                 <Text style={styles.counterText}>{count}</Text>
-                
-//                 <TouchableOpacity onPress={() => dispatch(decrementAction(count - 1))} style={styles.buttonStyle}>
-//                     <Text style={styles.buttonTextStyle}>-</Text>
-//                 </TouchableOpacity>
-//             </View>
-//         </View>
-//     );
-// };
-
-// const styles = StyleSheet.create({
-//     container: {
-//         flex: 1,
-//         backgroundColor: 'olive',
-//         justifyContent: 'center'
-//     },
-//     innerContainer: {
-//         flexDirection: 'row',
-//         alignSelf: 'center',
-//         alignItems: 'center'
-
-//     },
-//     buttonStyle: {
-//         backgroundColor: 'white',
-//         marginHorizontal: 20,
-//         width: 40,
-//         height: 40,
-//         alignItems: 'center',
-//         justifyContent: 'center',
-//         borderRadius: 40
-//     },
-//     counterWrapper: {
-//     },
-//     buttonTextStyle: {
-//         fontSize: 30
-//     },
-//     counterText: {
-//         fontSize: 48
-//     }
-// });
-
-import React from 'react';
-import {
-    StyleSheet,
-    Text, TextInput, Button,
-    View,
-} from 'react-native';
+import React, {useState} from 'react';
+import {FlatList,StyleSheet,Text, TextInput, Button, View, TouchableOpacity, Modal} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { setName, setAge } from './action/action';
+import {addUser} from './action/action';
+// import { setName, setEmail, setPassword, setAge, setMobileno, setEmployeeId } from './action/action';
 
 export default function CounterComponent() {
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [employeeId, setEmployeeId] = useState('');
+    const [password, setPassword] = useState('');
+    const [age, setAge] = useState('');
+    const [mobileno, setMobileno] = useState ('');
+    const [isVisible, setVisible] = useState (false)
+
     const dispatch = useDispatch();
-    const {name, age} = useSelector(state => state.counterReducer);
+    // const counterReducer = useSelector(state => state.counter.counterReducer);
+    const userList = useSelector(state => state.user.userList);
+    // const email = useSelector(state => state.counter.email);
+    // const password = useSelector(state => state.counter.password);
+    // const age = useSelector(state => state.counter.age);
+    
+     const UpdateData = () => {
+        dispatch(addUser ({name:name,
+        age:age,
+        email:email,
+        password:password,
+        mobileno:mobileno,
+        employeeId:employeeId
+    }))
+         };
+         const ClearForm = () => {
+            setVisible(false)
+            setName("")
+            setEmail("")
+            setPassword("")
+            setEmployeeId("")
+            setAge("")
+            setMobileno("")
+         }
+
+
+        const renderItem = ({item}) => {
+          return (
+<View style ={styles.item}>
+    <Text>{item.name}</Text>
+    <Text>{item.email}</Text> 
+    <Text>{item.password}</Text>
+    <Text>{item.employeeId}</Text>
+    <Text>{item.age}</Text>
+    <Text>{item.mobileno}</Text>
+   
+    
+    </View>
+          )
+        }
 
     return (
         <View style={styles.container}>
             <Text style={styles.text}>Registration Form</Text>
-              <TextInput placeholder = "Enter your name"
-              style={styles.placeholder}
-              value={name}
-            onChangeText={(value) => dispatch(setName(value))}/> 
-              <TextInput placeholder = "Enter your age"
-              style={styles.placeholder}
-              value={age}
-              keyboardType='numeric'
-              onChangeText={(value) => dispatch(setAge(value))}/>
-              <Button title ="Submit" />
+            
+                <TextInput 
+                    style={styles.placeholder}
+                    placeholder='Enter Name'
+                    value={name}
+                    onChangeText={val =>setName(val)}
+                    />
+                    <TextInput 
+                    style={styles.placeholder}
+                    placeholder='Enter Email'
+                    value={email}
+                    onChangeText={val =>setEmail(val)}
+                    />
+                    <TextInput 
+                    style={styles.placeholder}
+                    placeholder='Enter Password'
+                    value={password}
+                    onChangeText={val =>setPassword(val)}
+                    />
+                <TextInput 
+                    style={styles.placeholder}
+                    placeholder='Employee Id'
+                    keyboardType='numeric'
+                    value={employeeId}
+                    onChangeText={val =>setEmployeeId(val)}
+                    />
+                    <TextInput 
+                    style={styles.placeholder}
+                    placeholder='Enter Age'
+                    keyboardType='numeric'
+                    value={age}
+                    onChangeText={val =>setAge(val)}
+                    />
+                    <TextInput 
+                    style={styles.placeholder}
+                    placeholder='Mobile no'
+                    keyboardType='numeric'
+                    value={mobileno}
+                    onChangeText={val =>setMobileno(val)}
+                    />
+                <Button title ="Submit" onPress={UpdateData} 
+                />
+                <View style={styles.view}>
+                <TouchableOpacity
+                onPress={() => setVisible(!isVisible)}>
+                <FlatList data={userList}
+                renderItem={renderItem}/>
+               
+                 </TouchableOpacity> 
+                </View>
+                <Modal animationType ={"slide"}
+                visible = {isVisible}> 
+    
+              <View style={styles.container}>
+            <Text style ={styles.txt}>{name}</Text>
+            <Text style ={styles.txt}>{email}</Text>
+            <Text style ={styles.txt}>{password}</Text>
+            <Text style ={styles.txt}>{employeeId}</Text>
+            <Text style ={styles.txt}>{age}</Text>
+            <Text style ={styles.txt}>{mobileno}</Text>
+            <Button title="Close Model" onPress ={ClearForm}/>
+             </View>
+         </Modal>
+                
         </View>
     );
 };
 
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-     justifyContent: 'center',
-     alignItems:'center'
+      },
+    text:{
+        fontSize:18,
+        marginTop:80,
+        marginLeft:20,
+        textAlign:'center'
     },
-    placeholder:{
-        borderWidth:1,
-        height:40,
-        width:200,
-        padding:20,
-        margin:20
-    }
+    txt:{
+        fontSize:15,
+        marginRight:10,
+        margin:2,
+        marginTop:50,
+        textAlign:'center'
+    },
+ placeholder:{
+    borderWidth: 1,
+    width: 350,
+    height: 40,
+    fontSize: 15,
+    paddingLeft: 10,
+    borderRadius:6,
+    margin: 10,
+    marginTop:20
+   },
+   view:{
+alignItems:'center',
+borderRadius:2
+   }
 
 });
