@@ -20,3 +20,8 @@ import { ActionTypes } from "./actionType";
     type: ActionTypes.ADD_USER,
     payload: user,
   });
+  export const updateUser = (user, index) => ({
+    type: ActionTypes.UPDATE_USER,
+    payload: user,
+    index: index,
+  });
