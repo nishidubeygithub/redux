@@ -16,7 +16,7 @@ import { ActionTypes } from "./actionType";
 //     type: ActionTypes.SET_USER_AGE,
 //     payload: data,
 //   });
-  export const addUser = user => ({
+  export const addUser = (user) => ({
     type: ActionTypes.ADD_USER,
     payload: user,
   });
