@@ -5,17 +5,19 @@ import { ActionTypes } from "./actionType";
 //   payload: data,
 // });
 //  export const setEmail = data => ({
-//     type: ActionTypes.SET_USER_AGE,
+//     type: ActionTypes.SET_USER_EMAIL,
 //     payload: data,
 //   });
 //   export const setPassword = data => ({
-//     type: ActionTypes.SET_USER_AGE,
+//     type: ActionTypes.SET_USER_PASSWORD,
 //     payload: data,
 //   });
 //   export const setAge = data => ({
 //     type: ActionTypes.SET_USER_AGE,
 //     payload: data,
 //   });
+
+
   export const addUser = (user) => ({
     type: ActionTypes.ADD_USER,
     payload: user,

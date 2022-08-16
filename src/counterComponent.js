@@ -12,7 +12,7 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {addUser, updateUser} from './action/action';
 import DatePicker from 'react-native-date-picker';
-// import DatePicker from 'react-native-modern-datepicker';
+
 
  export default function CounterComponent() {
   const [name, setName] = useState('');
@@ -36,7 +36,7 @@ import DatePicker from 'react-native-date-picker';
         updateUser(
           {
             name: name,
-            dob: dob,
+            dob: `${new Date(dob)}`,
             age: age,
             email: email,
             password: password,
@@ -50,7 +50,7 @@ import DatePicker from 'react-native-date-picker';
       dispatch(
         addUser({
           name: name,
-          dob: dob,
+          dob:`${new Date(dob)}`,
           age: age,
           email: email,
           password: password,
@@ -206,16 +206,16 @@ import DatePicker from 'react-native-date-picker';
         <DatePicker
         modal
         open={open}
-        date={dob || new Date()}
+        date={new Date (dob) || new Date()}
         //value={date}
         mode="date"
         placeholder="Please select Date Month Year"
-        format="DD/MM/YYYY"
-        onDateChange={(dob) =>  {setDOB(dob)}}
+        // format="DD/MM/YYYY"
+        onDateChange={(dob) =>  {setDOB(new Date(dob))}}
 
         onConfirm={(dob) => {
           // console.log(dob)
-          calculate_age(dob)
+          // calculate_age(dob)
           setOpen(false)
           setDOB(dob)
         }}
@@ -280,3 +280,4 @@ const styles = StyleSheet.create({
     margin: 8,
   },
 });
+
